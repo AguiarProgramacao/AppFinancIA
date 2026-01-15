@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Usuario" ADD COLUMN "remuneracao" DOUBLE PRECISION NOT NULL DEFAULT 0;

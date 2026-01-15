@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "FinancIA",
+    "slug": "FinancIA",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logoPrincipal.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/logoPrincipal.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSUserNotificationUsageDescription": "Permite enviar notificacoes sobre transacoes e objetivos."
+      },
+      "bundleIdentifier": "com.aguiarprogramacao.financia",
+      "icon": "./assets/logoPrincipal.png",
+      "iconDisplayName": "FinancIA",
+      "buildNumber": "4"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logoPrincipal.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "NOTIFICATIONS"
+      ],
+      "notification": {
+        "icon": "./assets/notification-icon.png",
+        "color": "#3B82F6",
+        "priority": "max",
+        "sound": "default",
+        "vibrationPattern": [
+          0,
+          250,
+          250,
+          250
+        ]
+      },
+      "googleServicesFile": "./assets/google-services.json",
+      "package": "com.aguiarprogramacao.financia"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#3B82F6"
+        }
+      ]
+    ],
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cba6aeb9-52a3-403c-921d-dd8f47f8f95e"
+      }
+    }
+  }
+}

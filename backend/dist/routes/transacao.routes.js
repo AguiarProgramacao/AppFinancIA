@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const transacao_controller_1 = require("../controllers/transacao.controller");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.authMiddleware);
+router.post("/", transacao_controller_1.criar);
+router.get("/", transacao_controller_1.listar);
+router.get("/:id", transacao_controller_1.buscarPorId);
+router.put("/:id", transacao_controller_1.atualizar);
+router.delete("/:id", transacao_controller_1.remover);
+exports.default = router;

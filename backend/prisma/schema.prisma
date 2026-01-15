@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  nome      String
+  email     String   @unique
+  senha     String
+  criadoEm DateTime @default(now())
+
+  transacoes Transacao[]
+  objetivos  Objetivo[]
+  sessoes    Sessao[]
+  twoFactorTokens TwoFactorToken[]
+  categorias Categoria[]
+
+  twoFactorEnabled Boolean @default(false)
+  twoFactorEmail   Boolean @default(false)
+
+  notificacoesPushObjetivos  Boolean @default(false)
+  notificacoesPushTransacoes Boolean @default(false)
+  notificacoesEmailGerais    Boolean @default(true)
+  notificacoesEmailRelatorio Boolean @default(true)
+
+  remuneracao Float @default(0)
+  fotoPerfil String?
+  expoPushToken String?
+
+  insights     Insight[]
+  notificacoes Notificacao[]
+}
+
+model Categoria {
+  id    String @id @default(uuid())
+  nome  String
+  tipo  String // despesa | receita
+  cor   String
+
+  usuarioId String?
+  usuario   Usuario? @relation(fields: [usuarioId], references: [id])
+
+  transacoes Transacao[]
+}
+
+model Transacao {
+  id             String   @id @default(uuid())
+  tipo           String
+  valor          Float
+  descricao      String?
+  data           DateTime
+  formaPagamento String?
+  observacoes    String?
+
+  usuarioId      String
+  usuario        Usuario  @relation(fields: [usuarioId], references: [id])
+
+  categoriaId String
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+}
+
+model Objetivo {
+  id          String   @id @default(uuid())
+  nome        String
+  meta        Float
+  economizado Float   @default(0)
+  dataLimite  DateTime
+
+  usuarioId   String
+  usuario     Usuario @relation(fields: [usuarioId], references: [id])
+  
+  aportes     Aporte[]
+
+  criadoEm    DateTime @default(now())
+}
+
+model Aporte {
+  id         String   @id @default(uuid())
+  valor      Float
+  data       DateTime @default(now())
+  objetivoId String
+  objetivo   Objetivo @relation(fields: [objetivoId], references: [id])
+}
+
+model Sessao {
+  id           String   @id @default(uuid())
+  criadoEm     DateTime @default(now())
+  ultimoAcesso DateTime @default(now())
+  userAgent    String?
+  ip           String?
+  revogadoEm   DateTime?
+
+  usuarioId String
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+}
+
+model TwoFactorToken {
+  id        String   @id @default(uuid())
+  codeHash  String
+  expiresAt DateTime
+  tipo      String
+  criadoEm  DateTime @default(now())
+
+  usuarioId String
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+}
+
+model Insight {
+  id        String   @id @default(uuid())
+  tipo      String
+  titulo    String
+  mensagem  String
+  criadoEm  DateTime @default(now())
+  expiraEm  DateTime
+
+  usuarioId String
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+}
+
+model Notificacao {
+  id            String   @id @default(uuid())
+  tipo          String
+  titulo        String
+  mensagem      String
+  criadoEm      DateTime @default(now())
+  referenciaDia DateTime
+  periodo       String
+
+  usuarioId String
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+
+  @@unique([usuarioId, tipo, referenciaDia, periodo])
+}

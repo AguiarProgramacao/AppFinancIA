@@ -1,0 +1,154 @@
+# FinancIA
+
+Aplicativo mobile de gestao financeira pessoal, com acompanhamento de transacoes, metas e indicadores de desempenho. Integra-se a uma API REST e oferece recursos de seguranca avancados e notificacoes.
+
+## Objetivo do projeto
+Centralizar o controle de financas pessoais, permitindo registrar receitas e despesas, acompanhar metas financeiras e visualizar insights do periodo.
+
+## Publico-alvo
+Pessoas que desejam organizar financas pessoais, controlar gastos e acompanhar metas de economia de forma mobile.
+
+## Visao geral do sistema
+O app e construido em React Native com Expo e usa navegacao baseada em stacks/tabs. A autenticacao e gerenciada por contexto, com persistencia em AsyncStorage, e as integracoes com o backend sao feitas via uma camada de servicos. O dashboard fornece resumo financeiro e insights retornados pela API. Ha modulos dedicados para transacoes, objetivos, graficos e configuracoes.
+
+## Tecnologias utilizadas
+- Linguagem: TypeScript
+- Frameworks: React, React Native, Expo
+- Navegacao: React Navigation (stack e bottom tabs)
+- Graficos: react-native-svg, d3-shape (donut) e componente de barras customizado
+- Notificacoes: expo-notifications
+- Armazenamento local: @react-native-async-storage/async-storage
+- Seguranca local: expo-local-authentication (biometria)
+- Midia e arquivos: expo-image-picker, expo-file-system, expo-sharing
+- UI/icones: lucide-react-native, expo-linear-gradient
+- Build: EAS (eas.json)
+- Backend: API REST configurada via EXPO_PUBLIC_API_URL
+
+## Funcionalidades
+- Autenticacao com login, cadastro e recuperacao de senha
+- Autenticacao em duas etapas (2FA) por codigo
+- Dashboard com saldo, receitas, despesas e insights
+- Filtro por periodo no dashboard e fluxo mensal com grafico de barras
+- Transacoes: criacao, edicao, exclusao e detalhamento
+- Filtros de transacoes por tipo, busca e agrupamento por mes
+- Categorias de transacao com cor personalizada
+- Objetivos financeiros: criacao/edicao, progresso e aportes
+- Graficos por categoria (donut + progresso)
+- Preferencias de notificacoes (push e e-mail)
+- Exportacao de dados (CSV, JSON, PDF)
+- Perfil com atualizacao de dados e foto
+- Seguranca: mudanca de senha, biometria e sessoes ativas
+
+## Fluxo principal da aplicacao
+1. Onboarding -> Login/Registro
+2. Login -> Dashboard (tabs principais)
+3. A partir do Dashboard:
+   - Acoes rapidas para criar transacao/objetivo
+   - Acesso as abas de Transacoes, Objetivos, Graficos e Configuracoes
+4. Configuracoes -> Perfil, Seguranca, Notificacoes, Exportacao e Sobre
+
+## Arquitetura / estrutura do projeto
+Baseada em pastas por responsabilidade, com navegacao e servicos isolados:
+
+```
+.
+?? App.tsx
+?? app.json
+?? eas.json
+?? assets/
+?? src/
+   ?? components/
+   ?  ?? BarChart.tsx
+   ?  ?? DonutChart.tsx
+   ?  ?? OnboardingPage.tsx
+   ?  ?? formularios/
+   ?     ?? TransacoesForm.tsx
+   ?     ?? ObjetivoForm.tsx
+   ?     ?? ModalCategorias.tsx
+   ?? contexts/
+   ?  ?? AuthContext.tsx
+   ?  ?? TransacoesContext.tsx
+   ?? data/
+   ?  ?? data.tsx
+   ?? modais/
+   ?  ?? ChangePasswordModal.tsx
+   ?  ?? DisableTwoFactorModal.tsx
+   ?  ?? ResetPasswordModal.tsx
+   ?  ?? SessionsModal.tsx
+   ?  ?? TwoFactorModal.tsx
+   ?? navigation/
+   ?  ?? Routes.tsx
+   ?  ?? AuthStack.tsx
+   ?  ?? AppStack.tsx
+   ?  ?? TabNavigation.tsx
+   ?? screens/
+   ?  ?? OnboardingScreen.tsx
+   ?  ?? LoginScreen.tsx
+   ?  ?? RegisterScreen.tsx
+   ?  ?? DashboardScreen.tsx
+   ?  ?? TransacoesScreen.tsx
+   ?  ?? TransacaoDetalheScreen.tsx
+   ?  ?? ObjetivoScreen.tsx
+   ?  ?? ObjetivoDetalheScreen.tsx
+   ?  ?? GraficosScreen.tsx
+   ?  ?? ConfigScreen.tsx
+   ?  ?? ProfileScreen.tsx
+   ?  ?? SecurityScreen.tsx
+   ?  ?? NotificationsScreen.tsx
+   ?  ?? ExportDataScreen.tsx
+   ?  ?? AboutScreen.tsx
+   ?? services/
+   ?  ?? api.ts
+   ?  ?? auth.ts
+   ?  ?? dashboard.ts
+   ?  ?? transacoes.ts
+   ?  ?? categorias.ts
+   ?  ?? objetivos.ts
+   ?  ?? graficos.ts
+   ?  ?? notifications.ts
+   ?  ?? security.ts
+   ?  ?? export.ts
+   ?? types/
+   ?  ?? navigation.d.ts
+   ?? utils/
+      ?? errors.ts
+      ?? authEvents.ts
+```
+
+## Como rodar o projeto localmente
+1. Instale dependencias:
+   - npm install
+2. Configure variaveis de ambiente (ver secao abaixo).
+3. Inicie o app:
+   - npm run start
+
+## Variaveis de ambiente
+Definidas em .env:
+- EXPO_PUBLIC_API_URL ? URL base da API REST.
+
+## Decisoes tecnicas relevantes
+- Context API para estado global de autenticacao e transacoes.
+- Wrapper de API (src/services/api.ts) centraliza headers, erros e expiracao de sessao.
+- Expo Notifications integrado ao login para registrar tokens de push.
+- Navegacao separada em AuthStack (login) e AppStack (app autenticado), com tabs.
+- Graficos customizados com react-native-svg e d3-shape para maior controle visual.
+
+## Pontos fortes tecnicos
+- Camada de servicos isolada e consistente para comunicacao com API.
+- Tratamento centralizado de erros com mapeamento por codigo.
+- Integracao completa com notificacoes e biometria.
+- Organizacao modular por dominio (screens, services, modals, components).
+
+## Possiveis melhorias futuras
+- Cobertura de testes (unitarios e de integracao).
+- Cache offline para transacoes e objetivos.
+- Telemetria/analytics para eventos criticos.
+- Acessibilidade aprimorada (labels e navegacao por leitores de tela).
+- Internacionalizacao (i18n) e padronizacao de textos.
+
+## Autor
+Aguiar Programacao | programacaoaguiar@gmail.com  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Perfil-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/dev-rafael-aguiar/)
+[![Instagram](https://img.shields.io/badge/Instagram-Perfil-E4405F?logo=instagram&logoColor=white)](https://instagram.com/aguiar.programador)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Contato-25D366?logo=whatsapp&logoColor=white)](https://wa.me/5521974633634)
+
